@@ -28,7 +28,7 @@ function App() {
     formData.append('image', imageFile);
 
     try {
-      await axios.post('/api/upload', formData);
+      await axios.post('https://imagestyle.onrender.com/api/upload', formData);
     } catch (error) {
       console.error('Error uploading image:', error);
     }
@@ -38,7 +38,7 @@ function App() {
     if (!file) return;
 
     try {
-      const response = await axios.post('/api/segment', {
+      const response = await axios.post('https://imagestyle.onrender.com/api/segment', {
         image_path: `uploads/${file.name}`,
         n_segments: nSegments,
         compactness: compactness,

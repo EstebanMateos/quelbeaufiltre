@@ -21,7 +21,7 @@ const ProcessPage = ({
     if (!file) return;
 
     try {
-      const response = await axios.post('/api/segment', {
+      const response = await axios.post('https://imagestyle.onrender.com/api/segment', {
         image_path: `uploads/${file.name}`,
         n_segments: nSegments,
         compactness: compactness,
@@ -41,7 +41,7 @@ const ProcessPage = ({
     if (!segmentedImage) return;
 
     try {
-      const response = await axios.get(`/api/get_image/${segmentedImage}`, {
+      const response = await axios.get(`https://imagestyle.onrender.com/api/get_image/${segmentedImage}`, {
         responseType: 'blob',
       });
       const url = window.URL.createObjectURL(new Blob([response.data]));
@@ -118,7 +118,7 @@ const ProcessPage = ({
           <div className="image-wrapper">
             <h2 className="text-lg font-semibold mb-2">Segmented Image</h2>
             <img
-              src={`/api/get_image/${segmentedImage}`}
+              src={`https://imagestyle.onrender.com/api/get_image/${segmentedImage}`}
               alt="Segmented"
             />
             <button
