@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/quelbeaufiltre/static/css/main.40d31c8b.css",
+    "main.js": "/quelbeaufiltre/static/js/main.6022c1e8.js",
+    "static/js/453.7059e2cb.chunk.js": "/quelbeaufiltre/static/js/453.7059e2cb.chunk.js",
+    "index.html": "/quelbeaufiltre/index.html",
+    "main.40d31c8b.css.map": "/quelbeaufiltre/static/css/main.40d31c8b.css.map",
+    "main.6022c1e8.js.map": "/quelbeaufiltre/static/js/main.6022c1e8.js.map",
+    "453.7059e2cb.chunk.js.map": "/quelbeaufiltre/static/js/453.7059e2cb.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.40d31c8b.css",
+    "static/js/main.6022c1e8.js"
+  ]
+}
