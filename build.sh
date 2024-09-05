@@ -13,7 +13,7 @@ echo "www.mondomaine.com" > build/CNAME
 
 # Étape 3 : Déployer sur la branche gh-pages
 echo "Deploying to gh-pages branch..."
-gh-pages -d build
+npm run deploy
 
 # Message de confirmation
 echo "Deployment successful!"
