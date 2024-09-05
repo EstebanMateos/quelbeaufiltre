@@ -53,10 +53,10 @@ function App() {
         // Affichage de la zone d'upload tant qu'aucune image n'est sélectionnée
         <div className="upload-section">
           <label className="upload-button">
-            Select an Image
+            Choisis une image à segmenter.
             <input type="file" accept="image/*" onChange={handleFileChange} style={{ display: 'none' }} />
           </label>
-          <p className="explanation-text">Envoie ton image au serveur pour la vectoriser.</p>
+          <p className="explanation-text">Envoie ton image au serveur pour la vectoriser. Par PITIÉ, utilise d'abord un site du genre remove.bg pour supprimer le fond de l'image, sinon ça risque de pas marcher.</p>
         </div>
       ) : (
         // Affichage de la page de traitement lorsque l'image est sélectionnée
