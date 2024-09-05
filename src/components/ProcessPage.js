@@ -71,8 +71,8 @@ const ProcessPage = ({
 
       <div className="parameters-download-container">
         <div className="text-container">
-          <p>Nombre de segments:</p>
-          <p>Compactness:</p>
+          <p>Nombre de segments: {nSegments}</p>
+          <p>Compactness: {compactness}</p>
         </div>
 
         <div className="sliders-container">
