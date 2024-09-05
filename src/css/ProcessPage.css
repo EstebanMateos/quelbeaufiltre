@@ -1,81 +1,81 @@
 .process-container {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
+  flex-direction: column;
+  align-items: center;
   padding: 20px;
   gap: 20px;
-  /* Espace entre les sections */
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.images-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  gap: 20px;
+  flex-wrap: wrap;
 }
 
 .image-section {
   flex: 1;
   text-align: center;
+  max-width: 48%;
 }
 
 .image-section img {
   width: 100%;
   height: auto;
-  max-height: 70vh;
+  max-height: 50vh;
   object-fit: contain;
-  border: 3px solid #e0e0e0;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: 2px solid #e0e0e0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
-  padding: 10px;
+  padding: 5px;
   background-color: white;
 }
 
-.parameters-section {
-  position: relative;
-  transition: all 0.3s ease;
-}
-
-.parameters-section.open {
-  flex: 0 0 300px;
+.parameters-download-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
   padding: 20px;
   background-color: #f8f8f8;
-  border: 2px solid #ddd;
   border-radius: 10px;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  gap: 20px;
 }
 
-.parameters-section.closed {
-  flex: 0 0 50px;
-  padding: 20px 0;
-  background-color: #f8f8f8;
-  border: 2px solid #ddd;
-  border-radius: 10px;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-}
-
-.parameter-controls {
+.text-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
+  justify-content: flex-start;
+  min-width: 200px;
+  /* Largeur fixe pour le texte */
 }
 
-.parameter-control {
-  margin-bottom: 20px;
+.sliders-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 25px;
 }
 
-.parameter-control label {
-  font-weight: bold;
-  margin-bottom: 5px;
-  display: block;
-}
-
-.parameter-control input[type="range"] {
-  width: 100%;
+.slider-container {
+  width: 250px;
+  /* Largeur fixe des sliders */
 }
 
 .apply-button {
-  width: 100%;
   padding: 10px 20px;
   background-color: #28a745;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  font-size: 16px;
 }
 
 .apply-button:disabled {
@@ -84,34 +84,23 @@
 }
 
 .download-button {
-  margin-top: 20px;
   padding: 10px 20px;
   background-color: #007bff;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  font-size: 16px;
+  margin-left: 20px;
+  position: absolute;
+  bottom: -50px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .download-button:hover {
   background-color: #0056b3;
 }
 
-/* Bouton pour ouvrir/fermer la barre des paramètres */
-.toggle-button {
-  position: absolute;
-  top: 10px;
-  left: -40px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  padding: 5px 10px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.toggle-button:hover {
-  background-color: #0056b3;
+.image-section-right {
+  position: relative;
 }

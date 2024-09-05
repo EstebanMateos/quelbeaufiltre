@@ -15,6 +15,7 @@ function App() {
     if (selectedFile) {
       setFile(selectedFile);
       setSegmentedImage(null); // Réinitialise l'image segmentée lors du changement de fichier
+      applySegmentation();
     }
   };
 
