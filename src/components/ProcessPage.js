@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import '../css/ProcessPage.css';
+
+const baseURL = "https://imagestyle.onrender.com";
 
 const ProcessPage = ({
   file,
@@ -11,11 +13,18 @@ const ProcessPage = ({
   applySegmentation,
   isProcessing,
 }) => {
+  useEffect(() => {
+    // Afficher l'URL utilisée pour récupérer l'image segmentée
+    if (segmentedImage) {
+      console.log("Segmented image URL:", `${baseURL}/api/get_image/${segmentedImage}`);
+    }
+  }, [segmentedImage]);
+
   const downloadImage = async () => {
     if (!segmentedImage) return;
 
     try {
-      const response = await fetch(`https://imagestyle.onrender.com/api/get_image/${segmentedImage}`);
+      const response = await fetch(`${baseURL}/api/get_image/${segmentedImage}`);
       const blob = await response.blob();
       const url = window.URL.createObjectURL(new Blob([blob]));
       const link = document.createElement('a');
@@ -31,7 +40,6 @@ const ProcessPage = ({
 
   return (
     <div className="process-container">
-      {/* Conteneur des images */}
       <div className="images-container">
         <div className="image-section">
           <h2>Image originelle</h2>
@@ -40,7 +48,11 @@ const ProcessPage = ({
 
         <div className="image-section image-section-right">
           <h2>Image stylisée</h2>
-          <img src={`https://imagestyle.onrender.com/api/get_image/${segmentedImage}`} alt="Segmented" className="segmented-image" />
+          {segmentedImage ? (
+            <img src={`${baseURL}/api/get_image/${segmentedImage}`} alt="Segmented" className="segmented-image" />
+          ) : (
+            <p>Aucune image segmentée</p>
+          )}
 
           {/* Bouton "Download" centré sous l'image */}
           {segmentedImage && (
@@ -51,10 +63,8 @@ const ProcessPage = ({
         </div>
       </div>
 
-      {/* Conteneur pour les paramètres */}
       <div className="parameters-download-container">
         <div className="text-container">
-          {/* Nombre de segments */}
           <div className="slider-container">
             <label>Nombre de segments:</label>
             <input
@@ -66,7 +76,6 @@ const ProcessPage = ({
             />
           </div>
 
-          {/* Compactness */}
           <div className="slider-container">
             <label>Compactness:</label>
             <input
@@ -79,7 +88,6 @@ const ProcessPage = ({
           </div>
         </div>
 
-        {/* Bouton "Apply" */}
         <button className="apply-button" onClick={applySegmentation} disabled={isProcessing}>
           {isProcessing ? 'Processing...' : 'Apply'}
         </button>
