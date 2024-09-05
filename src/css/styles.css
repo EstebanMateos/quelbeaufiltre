@@ -11,7 +11,23 @@ body {
 
 .project-title {
   font-size: 2.5rem;
+  /* Taille du titre par défaut sur les grands écrans */
   margin-bottom: 20px;
+}
+
+/* Réduction de la taille du titre sur les petits écrans */
+@media only screen and (max-width: 768px) {
+  .project-title {
+    font-size: 2rem;
+    /* Taille réduite pour les écrans de moins de 768px */
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .project-title {
+    font-size: 1.5rem;
+    /* Taille encore plus petite pour les très petits écrans */
+  }
 }
 
 .upload-section {
