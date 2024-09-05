@@ -9,7 +9,7 @@ npm run build
 
 # Étape 2 : Ajouter le fichier CNAME dans le dossier build
 echo "Creating CNAME file..."
-echo "www.mondomaine.com" > build/CNAME
+echo "wowquelbeaufiltre.lol" > build/CNAME
 
 # Étape 3 : Déployer sur la branche gh-pages
 echo "Deploying to gh-pages branch..."
