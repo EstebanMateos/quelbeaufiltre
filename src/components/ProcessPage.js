@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import '../css/ProcessPage.css';
 
 const ProcessPage = ({
@@ -11,26 +11,6 @@ const ProcessPage = ({
   applySegmentation,
   isProcessing,
 }) => {
-  const [isMobile, setIsMobile] = useState(false);
-
-  // Utiliser useEffect pour détecter si l'utilisateur est sur mobile
-  useEffect(() => {
-    const checkMobile = () => {
-      if (window.innerWidth <= 768) {
-        setIsMobile(true);
-      } else {
-        setIsMobile(false);
-      }
-    };
-
-    checkMobile(); // Appel initial
-    window.addEventListener('resize', checkMobile);
-
-    return () => {
-      window.removeEventListener('resize', checkMobile);
-    };
-  }, []);
-
   const downloadImage = async () => {
     if (!segmentedImage) return;
 
@@ -51,6 +31,7 @@ const ProcessPage = ({
 
   return (
     <div className="process-container">
+      {/* Conteneur des images */}
       <div className="images-container">
         <div className="image-section">
           <h2>Image originelle</h2>
@@ -61,6 +42,7 @@ const ProcessPage = ({
           <h2>Image stylisée</h2>
           <img src={`https://imagestyle.onrender.com/api/get_image/${segmentedImage}`} alt="Segmented" className="segmented-image" />
 
+          {/* Bouton "Download" centré sous l'image */}
           {segmentedImage && (
             <button className="download-button" onClick={downloadImage}>
               Download
@@ -69,62 +51,35 @@ const ProcessPage = ({
         </div>
       </div>
 
+      {/* Conteneur pour les paramètres */}
       <div className="parameters-download-container">
         <div className="text-container">
-          <p>Nombre de segments: {nSegments}</p>
-          <p>Compactness: {compactness}</p>
+          {/* Nombre de segments */}
+          <div className="slider-container">
+            <label>Nombre de segments:</label>
+            <input
+              type="number"
+              value={nSegments}
+              onChange={(e) => setNSegments(Number(e.target.value))}
+              min="10"
+              max="500"
+            />
+          </div>
+
+          {/* Compactness */}
+          <div className="slider-container">
+            <label>Compactness:</label>
+            <input
+              type="number"
+              value={compactness}
+              onChange={(e) => setCompactness(Number(e.target.value))}
+              min="1"
+              max="100"
+            />
+          </div>
         </div>
 
-        <div className="sliders-container">
-          {!isMobile ? (
-            <>
-              {/* Affichage des sliders pour les grands écrans */}
-              <div className="slider-container">
-                <input
-                  type="range"
-                  value={nSegments}
-                  onChange={(e) => setNSegments(Number(e.target.value))}
-                  min="10"
-                  max="500"
-                />
-              </div>
-
-              <div className="slider-container">
-                <input
-                  type="range"
-                  value={compactness}
-                  onChange={(e) => setCompactness(Number(e.target.value))}
-                  min="1"
-                  max="100"
-                />
-              </div>
-            </>
-          ) : (
-            <>
-              {/* Affichage des champs de saisie manuelle pour les mobiles */}
-              <div className="input-container">
-                <input
-                  type="number"
-                  value={nSegments}
-                  onChange={(e) => setNSegments(Number(e.target.value))}
-                  min="10"
-                  max="500"
-                />
-              </div>
-
-              <div className="input-container">
-                <input
-                  type="number"
-                  value={compactness}
-                  onChange={(e) => setCompactness(Number(e.target.value))}
-                  min="1"
-                  max="100"
-                />
-              </div>
-            </>
-          )}
-        </div>
-
+        {/* Bouton "Apply" */}
         <button className="apply-button" onClick={applySegmentation} disabled={isProcessing}>
           {isProcessing ? 'Processing...' : 'Apply'}
         </button>
