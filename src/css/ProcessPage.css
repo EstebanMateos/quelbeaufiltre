@@ -97,6 +97,15 @@
   cursor: not-allowed;
 }
 
+/* Bouton download ajusté */
+.download-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  /* Espace entre le bouton et le texte */
+}
+
 .download-button {
   padding: 10px 20px;
   background-color: #007bff;
@@ -104,7 +113,6 @@
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  margin-left: 20px;
 }
 
 .download-button:hover {
@@ -131,7 +139,8 @@
   .parameters-download-container {
     padding: 10px;
     flex-direction: column;
-    align-items: center;
+    /* Les éléments seront empilés verticalement */
+    align-items: flex-start;
   }
 
   .apply-button {
@@ -154,5 +163,19 @@
 @media only screen and (max-width: 480px) {
   .image-section h2 {
     font-size: 1rem;
+  }
+}
+
+/* Texte à côté du bouton Download sur grand écran */
+@media only screen and (min-width: 769px) {
+  .download-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .download-text {
+    font-size: 1rem;
+    color: #333;
   }
 }

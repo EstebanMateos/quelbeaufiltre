@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import './css/styles.css';
 import ProcessPage from './components/ProcessPage';
@@ -9,9 +9,7 @@ function App() {
   const [compactness, setCompactness] = useState(5); // Compactness
   const [segmentedImage, setSegmentedImage] = useState(null); // Image segmentée
   const [isProcessing, setIsProcessing] = useState(false); // État de traitement en cours
-  const [isMobile, setIsMobile] = useState(false); // Gestion de l'affichage mobile
 
-  // Fonction pour gérer le changement de fichier
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
     if (selectedFile) {
@@ -21,7 +19,6 @@ function App() {
     }
   };
 
-  // Fonction pour segmenter l'image
   const applySegmentation = async () => {
     if (!file) return;
     setIsProcessing(true); // Désactiver le bouton "Appliquer" pendant le traitement
@@ -42,36 +39,15 @@ function App() {
       // Mise à jour de l'image segmentée après le traitement
       setSegmentedImage(response.data.path);
     } catch (error) {
-      console.error("Erreur lors du traitement de l'image :", error);
+      console.error('Erreur lors du traitement de l\'image :', error);
     } finally {
       setIsProcessing(false); // Réactiver le bouton une fois le processus terminé
     }
   };
 
-  // Utilisation de useEffect pour détecter si l'utilisateur est sur mobile
-  useEffect(() => {
-    const checkMobile = () => {
-      if (window.innerWidth <= 768) {
-        setIsMobile(true);
-      } else {
-        setIsMobile(false);
-      }
-    };
-
-    checkMobile(); // Appel initial
-    window.addEventListener('resize', checkMobile); // Ajoute un listener sur le redimensionnement
-
-    return () => {
-      window.removeEventListener('resize', checkMobile); // Nettoyage du listener
-    };
-  }, []);
-
   return (
     <div className="app-container">
-      {/* Titre avec gestion mobile */}
-      <h1 className="project-title">
-        {isMobile ? "Le filtre magique" : "Le filtre le plus incroyable de l'univers"}
-      </h1>
+      <h1 className="project-title">Le filtre le plus incroyable de l'univers</h1>
 
       {!file ? (
         // Affichage de la zone d'upload tant qu'aucune image n'est sélectionnée
