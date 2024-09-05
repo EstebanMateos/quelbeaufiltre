@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react';
-import axios from 'axios';
+import React, { useState } from 'react';
 import '../css/ProcessPage.css';
 
 const ProcessPage = ({
@@ -9,42 +8,18 @@ const ProcessPage = ({
   compactness,
   setCompactness,
   segmentedImage,
-  setSegmentedImage,
+  applySegmentation,
+  isProcessing,
 }) => {
-  useEffect(() => {
-    if (file) {
-      applySegmentation();
-    }
-  }, [nSegments, compactness, file]);
-
-  const applySegmentation = async () => {
-    if (!file) return;
-
-    try {
-      const response = await axios.post('https://imagestyle.onrender.com/api/segment', {
-        image_path: `uploads/${file.name}`,
-        n_segments: nSegments,
-        compactness: compactness,
-      });
-
-      if (response.data && response.data.path) {
-        setSegmentedImage(response.data.path);
-      } else {
-        console.error('No path found in response:', response.data);
-      }
-    } catch (error) {
-      console.error('Error segmenting image:', error);
-    }
-  };
+  const [sidebarOpen, setSidebarOpen] = useState(true); // État de la barre des paramètres (ouverte/fermée)
 
   const downloadImage = async () => {
     if (!segmentedImage) return;
 
     try {
-      const response = await axios.get(`https://imagestyle.onrender.com/api/get_image/${segmentedImage}`, {
-        responseType: 'blob',
-      });
-      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const response = await fetch(`https://imagestyle.onrender.com/api/get_image/${segmentedImage}`);
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(new Blob([blob]));
       const link = document.createElement('a');
       link.href = url;
       link.setAttribute('download', `segmented_${file.name}`);
@@ -56,76 +31,74 @@ const ProcessPage = ({
     }
   };
 
-  const incrementValue = (setter, step = 1) => () => setter((prev) => Math.min(prev + step, 500));
-  const decrementValue = (setter, step = 1) => () => setter((prev) => Math.max(prev - step, 1));
-
   return (
-    <div className="process-page p-6 max-w-4xl mx-auto bg-white shadow-md rounded-lg">
-      <h1 className="text-2xl font-bold text-center mb-6">Image Segmenter</h1>
-
-      {/* Parameters section */}
-      <div className="parameters">
-        <div className="parameter-control">
-          <label className="font-bold mb-2">
-            Number of Segments:
-          </label>
-          <div className="flex items-center justify-center">
-            <button className="bg-gray-300 text-gray-800 px-3 py-1 rounded-l" onClick={decrementValue(setNSegments)}>-</button>
-            <input
-              type="number"
-              value={nSegments}
-              onChange={(e) => setNSegments(Number(e.target.value))}
-              min="10"
-              max="500"
-              className="w-16 text-center border-t border-b border-gray-300"
-            />
-            <button className="bg-gray-300 text-gray-800 px-3 py-1 rounded-r" onClick={incrementValue(setNSegments)}>+</button>
-          </div>
-        </div>
-
-        <div className="parameter-control">
-          <label className="font-bold mb-2">
-            Compactness:
-          </label>
-          <div className="flex items-center justify-center">
-            <button className="bg-gray-300 text-gray-800 px-3 py-1 rounded-l" onClick={decrementValue(setCompactness)}>-</button>
-            <input
-              type="number"
-              value={compactness}
-              onChange={(e) => setCompactness(Number(e.target.value))}
-              min="1"
-              max="100"
-              className="w-16 text-center border-t border-b border-gray-300"
-            />
-            <button className="bg-gray-300 text-gray-800 px-3 py-1 rounded-r" onClick={incrementValue(setCompactness)}>+</button>
-          </div>
-        </div>
+    <div className="process-container">
+      {/* Section de l'image originale */}
+      <div className="image-section">
+        <h2>Image originelle</h2>
+        <img
+          src={URL.createObjectURL(file)}
+          alt="Original"
+          className="original-image"
+        />
       </div>
 
-      {/* Images section */}
-      <div className="images-container">
-        {file && (
-          <div className="image-wrapper">
-            <h2 className="text-lg font-semibold mb-2">Original Image</h2>
-            <img
-              src={URL.createObjectURL(file)}
-              alt="Original"
-            />
-          </div>
-        )}
+      {/* Section de l'image segmentée */}
+      <div className="image-section">
+        <h2>Image stylisée</h2>
+        <img
+          src={`https://imagestyle.onrender.com/api/get_image/${segmentedImage}`}
+          alt="Segmented"
+          className="segmented-image"
+        />
 
+        {/* Bouton de téléchargement */}
         {segmentedImage && (
-          <div className="image-wrapper">
-            <h2 className="text-lg font-semibold mb-2">Segmented Image</h2>
-            <img
-              src={`https://imagestyle.onrender.com/api/get_image/${segmentedImage}`}
-              alt="Segmented"
-            />
+          <button className="download-button" onClick={downloadImage}>
+            Download
+          </button>
+        )}
+      </div>
+
+      {/* Barre latérale des paramètres */}
+      <div className={`parameters-section ${sidebarOpen ? 'open' : 'closed'}`}>
+        <button className="toggle-button" onClick={() => setSidebarOpen(!sidebarOpen)}>
+          {sidebarOpen ? '<<' : '>>'}
+        </button>
+        {sidebarOpen && (
+          <div className="parameter-controls">
+            <h3>Paramètres</h3>
+
+            <div className="parameter-control">
+              <label>Nombre de segments:</label>
+              <input
+                type="range"
+                value={nSegments}
+                onChange={(e) => setNSegments(Number(e.target.value))}
+                min="10"
+                max="500"
+              />
+              <p>{nSegments} segments</p>
+            </div>
+
+            <div className="parameter-control">
+              <label>Compactness:</label>
+              <input
+                type="range"
+                value={compactness}
+                onChange={(e) => setCompactness(Number(e.target.value))}
+                min="1"
+                max="100"
+              />
+              <p>{compactness} compactness</p>
+            </div>
+
             <button
-              className="mt-4 bg-blue-500 text-white py-2 px-4 rounded"
-              onClick={downloadImage}
+              className="apply-button"
+              onClick={applySegmentation}
+              disabled={isProcessing}
             >
-              Download
+              {isProcessing ? 'Processing...' : 'Apply'}
             </button>
           </div>
         )}

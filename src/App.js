@@ -1,72 +1,64 @@
-// src/App.js
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
-import Header from './components/Header';
-import HomePage from './components/HomePage';
-import ProcessPage from './components/ProcessPage';
-import HelpSection from './components/HelpSection';
 import './css/styles.css';
+import ProcessPage from './components/ProcessPage';
 
 function App() {
-  const [file, setFile] = useState(null);
-  const [nSegments, setNSegments] = useState(60);
-  const [compactness, setCompactness] = useState(5);
-  const [segmentedImage, setSegmentedImage] = useState(null);
-  const [currentPage, setCurrentPage] = useState('home');
-  const [showHelp, setShowHelp] = useState(false);
+  const [file, setFile] = useState(null); // Fichier image sélectionné
+  const [nSegments, setNSegments] = useState(60); // Nombre de segments
+  const [compactness, setCompactness] = useState(5); // Compactness
+  const [segmentedImage, setSegmentedImage] = useState(null); // Image segmentée
+  const [isProcessing, setIsProcessing] = useState(false); // État de traitement en cours
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
     if (selectedFile) {
       setFile(selectedFile);
-      uploadImage(selectedFile);
-    }
-  };
-
-  const uploadImage = async (imageFile) => {
-    const formData = new FormData();
-    formData.append('image', imageFile);
-
-    try {
-      await axios.post('https://imagestyle.onrender.com/api/upload', formData);
-    } catch (error) {
-      console.error('Error uploading image:', error);
+      setSegmentedImage(null); // Réinitialise l'image segmentée lors du changement de fichier
     }
   };
 
   const applySegmentation = async () => {
     if (!file) return;
+    setIsProcessing(true); // Désactiver le bouton "Appliquer" pendant le traitement
 
     try {
+      const formData = new FormData();
+      formData.append('image', file);
+
+      // Envoi de l'image au serveur pour traitement
+      await axios.post('https://imagestyle.onrender.com/api/upload', formData);
+
       const response = await axios.post('https://imagestyle.onrender.com/api/segment', {
         image_path: `uploads/${file.name}`,
         n_segments: nSegments,
         compactness: compactness,
       });
+
+      // Mise à jour de l'image segmentée après le traitement
       setSegmentedImage(response.data.path);
     } catch (error) {
-      console.error('Error segmenting image:', error);
+      console.error('Erreur lors du traitement de l\'image :', error);
+    } finally {
+      setIsProcessing(false); // Réactiver le bouton une fois le processus terminé
     }
   };
 
-  useEffect(() => {
-    if (file) {
-      applySegmentation();
-    }
-  }, [nSegments, compactness]);
-
   return (
-    <div className="App">
-      <Header
-        setCurrentPage={setCurrentPage}
-        setShowHelp={setShowHelp}
-        handleFileChange={handleFileChange} // Pass the file change handler
-      />
-      {showHelp && <HelpSection />}
-      {currentPage === 'home' && (
-        <HomePage file={file} handleFileChange={handleFileChange} />
-      )}
-      {currentPage === 'process' && file && (
+    <div className="app-container">
+      <h1 className="project-title">Le filtre le plus incroyable de l'univers</h1>
+
+      {!file ? (
+        // Affichage de la zone d'upload tant qu'aucune image n'est sélectionnée
+        <div className="upload-section">
+          <label className="upload-button">
+            Select an Image
+            <input type="file" accept="image/*" onChange={handleFileChange} style={{ display: 'none' }} />
+          </label>
+          <p className="explanation-text">Envoie ton image au serveur pour la vectoriser.</p>
+        </div>
+      ) : (
+        // Affichage de la page de traitement lorsque l'image est sélectionnée
         <ProcessPage
           file={file}
           nSegments={nSegments}
@@ -74,7 +66,8 @@ function App() {
           compactness={compactness}
           setCompactness={setCompactness}
           segmentedImage={segmentedImage}
-          setSegmentedImage={setSegmentedImage}
+          applySegmentation={applySegmentation}
+          isProcessing={isProcessing}
         />
       )}
     </div>

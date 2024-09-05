@@ -1,95 +1,37 @@
-/* styles.css */
-
-/* General styles */
 body {
-    margin: 0;
-    font-family: 'Arial', sans-serif;
-    background-color: #f4f4f9;
-    color: #333;
-    line-height: 1.6;
-  }
-  
-  .App {
-    text-align: center;
-    padding: 20px;
-  }
-  
-  header {
-    background: #333;
-    color: #fff;
-    padding: 10px 0;
-  }
-  
-  header button {
-    background: #444;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    margin: 0 5px;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: background 0.3s;
-  }
-  
-  header button:hover {
-    background: #555;
-  }
-  
-  /* Home Page Styles */
-  .home-page {
-    margin-top: 20px;
-  }
-  
-  .home-page input[type="file"] {
-    margin-top: 10px;
-  }
-  
-  /* Process Page Styles */
-  .process-page {
-    margin-top: 20px;
-  }
-  
-  .process-page h1 {
-    margin-bottom: 20px;
-  }
-  
-  .process-page img {
-    border: 2px solid #ddd;
-    border-radius: 8px;
-    margin-top: 10px;
-  }
-  
-  .process-page div {
-    margin: 20px 0;
-  }
-  
-  .process-page label {
-    font-weight: bold;
-  }
-  
-  .process-page input[type="number"] {
-    margin: 0 10px;
-  }
-  
-  .process-page button {
-    background: #333;
-    color: #fff;
-    border: none;
-    padding: 10px;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: background 0.3s;
-  }
-  
-  .process-page button:hover {
-    background: #555;
-  }
-  
-  /* Help Section Styles */
-  .help-section {
-    margin: 20px 0;
-    background: #e9ecef;
-    padding: 20px;
-    border-radius: 8px;
-  }
-  
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+  background-color: #f9f9f9;
+}
+
+.app-container {
+  text-align: center;
+  padding: 20px;
+}
+
+.project-title {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+.upload-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 50vh;
+}
+
+.upload-button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.explanation-text {
+  margin-top: 20px;
+  font-size: 1rem;
+  color: #666;
+}
