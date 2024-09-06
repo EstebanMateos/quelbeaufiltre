@@ -3,7 +3,7 @@ import axios from 'axios';
 import './css/styles.css';
 import ProcessPage from './components/ProcessPage';
 
-const baseURL = "https://imagestyle.onrender.com";
+const baseURL = "https://quelbeaufiltre.ey.r.appspot.com";
 
 function App() {
   const [file, setFile] = useState(null); // Fichier image sélectionné
@@ -60,7 +60,7 @@ function App() {
     try {
       // Segmentation de l'image avec les nouveaux paramètres
       const response = await axios.post(`${baseURL}/api/segment`, {
-        image_path: `uploads/${file.name}`, // Assurez-vous que l'URL du fichier est correcte
+        image_path: `${file.name}`, // Assurez-vous que l'URL du fichier est correcte
         n_segments: nSegments,
         compactness: compactness,
       });
