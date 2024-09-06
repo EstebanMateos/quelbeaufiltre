@@ -60,7 +60,7 @@ function App() {
     try {
       // Segmentation de l'image avec les nouveaux paramètres
       const response = await axios.post(`${baseURL}/api/segment`, {
-        image_path: `${file.name}`, // Assurez-vous que l'URL du fichier est correcte
+        image_path: segmentedImage, // Assurez-vous que l'URL du fichier est correcte
         n_segments: nSegments,
         compactness: compactness,
       });
